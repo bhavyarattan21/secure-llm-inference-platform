@@ -31,10 +31,9 @@
 
 | Name | Roll Number | Role |
 | :--- | :--- | :--- |
-| **Aditya Shibu** | 2401201047 | **Team Leader** / Backend Architect |
-| **Lakshya Dangwal** | 2401201030 | Attack Simulation / Red Teaming |
+| **Aditya Shibu** | 2401201047 | **Team Leader** / Backend Architect / Attack Simulation / Red Teaming |
 | **Akash Sharma** | 2401201108 | Defense Logic / Blue Teaming |
-| **Bhavya Rattan** | 2401201004 | Frontend & Visualization |
+| **Bhavya Rattan, Lakshya Dangwal** | 2401201004 | Frontend & Visualization |
 
 ---
 
