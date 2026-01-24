@@ -96,8 +96,8 @@ The system follows a pipeline approach:
 ## ⚡ Installation & Setup
 
 ### Prerequisites
-* Python 3.10+
-* Node.js (for Frontend)
+* [Python 3.10+](https://www.python.org/downloads/)
+* [Node.js](https://nodejs.org/en) (for Frontend)
 * [Ollama](https://ollama.com/) installed and running.
 
 ### 1. Backend Setup
