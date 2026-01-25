@@ -3,6 +3,7 @@ from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from app.llm_client import query_llm
 from app.defenses import check_input, check_output
+import os
 
 DEFENSE_MODE= False                                          #turn off to show vulnerabilities 
 
