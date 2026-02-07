@@ -16,9 +16,13 @@
 ## 🏫 Project & Academic Details
 
 **Institution:** [KR Mangalam University](https://www.krmangalam.edu.in/)  
+
 **Course:** BCA (AI & Data Science)  
+
 **Semester:** 4  
+
 **Internal Coordinator:** Dr. Ravinder Beniwal  
+
 **Email:** ravinder.beniwal@krmangalam.edu.in  
 
 <img src="https://cdn-ilakggn.nitrocdn.com/qfLlPHxtFDGRhIOUKhiZcDNvbHvEtWcT/assets/images/optimized/rev-5a3e233/www.krmangalam.edu.in/wp-content/uploads/2025/11/KRMU-Logo-NAAC.webp" alt="KRMU Logo" style="display:block;max-width:300px;width:90%;height:auto;">
