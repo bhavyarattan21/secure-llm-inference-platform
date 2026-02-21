@@ -1,6 +1,144 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
+// ── Copy Button ───────────────────────────────────────────────────────────────
+const CopyButton = ({ text, size = 'sm' }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async (e) => {
+    e.stopPropagation();
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  return (
+    <button
+      onClick={handleCopy}
+      title="Copy"
+      className={`flex items-center gap-1 px-2 py-1 rounded-lg border transition-all font-mono
+        ${copied
+          ? 'bg-emerald-500/20 border-emerald-500/40 text-emerald-400'
+          : 'bg-white/5 border-white/10 text-white/40 hover:text-white/80 hover:bg-white/10 hover:border-white/20'
+        } ${size === 'xs' ? 'text-[9px]' : 'text-[10px]'}`}
+    >
+      {copied ? (
+        <>
+          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+          </svg>
+          COPIED
+        </>
+      ) : (
+        <>
+          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+              d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+          COPY
+        </>
+      )}
+    </button>
+  );
+};
+
+// ── Language Detector ─────────────────────────────────────────────────────────
+const detectLang = (code) => {
+  if (/^\s*(def |import |from .+ import|class .+:|print\(|if __name__)/.test(code)) return 'python';
+  if (/^\s*(const |let |var |function |=>|import .+ from|require\()/.test(code)) return 'javascript';
+  if (/^\s*(import React|export default|useState|useEffect)/.test(code)) return 'jsx';
+  if (/^\s*(<\?php|\$[a-zA-Z])/.test(code)) return 'php';
+  if (/^\s*(public class|private |protected |System\.out)/.test(code)) return 'java';
+  if (/^\s*(#include|int main|std::|cout|cin)/.test(code)) return 'c++';
+  if (/^\s*(fn |let mut|use std|println!|impl )/.test(code)) return 'rust';
+  if (/^\s*(SELECT|INSERT|UPDATE|DELETE|CREATE TABLE)/i.test(code)) return 'sql';
+  if (/^\s*(FROM |RUN |CMD |EXPOSE |WORKDIR )/.test(code)) return 'dockerfile';
+  if (/^\s*([a-zA-Z-]+:\s|^\s*-\s)/.test(code) && code.includes('\n')) return 'yaml';
+  if (/^\s*(\{|\[)/.test(code.trim())) return 'json';
+  if (/^\s*(echo |apt|npm |pip |brew |cd |ls |mkdir |chmod )/.test(code)) return 'bash';
+  if (/^\s*([a-zA-Z-]+\s*\{|@media|:root|\.[\w-]+\s*\{)/.test(code)) return 'css';
+  return null;
+};
+
+// ── Code Block ────────────────────────────────────────────────────────────────
+const CodeBlock = ({ code, lang }) => {
+  const resolvedLang = lang || detectLang(code);
+  const lines = code.split('\n');
+
+  return (
+    <div className="my-2 rounded-xl overflow-hidden border border-white/10 bg-black/60">
+      <div className="flex items-center justify-between px-4 py-2 bg-white/5 border-b border-white/10">
+        <span className="text-[10px] font-mono text-cyan-400/70 uppercase tracking-widest">
+          {resolvedLang || 'CODE'}
+        </span>
+        <CopyButton text={code} size="xs" />
+      </div>
+      <div className="flex overflow-x-auto">
+        <div className="select-none px-3 py-3 text-xs font-mono text-white/20 text-right leading-relaxed border-r border-white/5 bg-white/[0.02] min-w-[2.5rem]">
+          {lines.map((_, i) => (
+            <div key={i}>{i + 1}</div>
+          ))}
+        </div>
+        <pre className="px-4 py-3 text-xs font-mono text-emerald-300/90 leading-relaxed flex-1">
+          <code>{code}</code>
+        </pre>
+      </div>
+    </div>
+  );
+};
+
+// ── Content Parser ────────────────────────────────────────────────────────────
+const parseContent = (content) => {
+  const parts = [];
+  const regex = /```(\w*)\n?([\s\S]*?)```/g;
+  let lastIndex = 0;
+  let match;
+
+  while ((match = regex.exec(content)) !== null) {
+    if (match.index > lastIndex) {
+      parts.push({ type: 'text', value: content.slice(lastIndex, match.index) });
+    }
+    parts.push({ type: 'code', lang: match[1] || '', value: match[2].trimEnd() });
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < content.length) {
+    parts.push({ type: 'text', value: content.slice(lastIndex) });
+  }
+
+  return parts;
+};
+
+// ── Message Body ──────────────────────────────────────────────────────────────
+const MessageBody = ({ content }) => {
+  const parts = parseContent(content);
+  return (
+    <div>
+      {parts.map((part, i) =>
+        part.type === 'code' ? (
+          <CodeBlock key={i} code={part.value} lang={part.lang} />
+        ) : (
+          <p key={i} className="text-white/60 leading-relaxed whitespace-pre-wrap text-sm">
+            {part.value}
+          </p>
+        )
+      )}
+    </div>
+  );
+};
+
+// ── Main Component ────────────────────────────────────────────────────────────
 const AttackLab = ({ attack, isSimulating, onSimulate }) => {
   const [prompt, setPrompt] = useState(attack.lastPrompt || '');
 
@@ -52,17 +190,12 @@ const AttackLab = ({ attack, isSimulating, onSimulate }) => {
                   ></div>
                 </div>
               </div>
-              <div
-                className={`text-2xl font-bold font-mono ${
-                  attack.successRate === 0
-                    ? 'text-emerald-400'
-                    : attack.successRate < 30
-                      ? 'text-yellow-400'
-                      : attack.successRate < 70
-                        ? 'text-orange-400'
-                        : 'text-red-400'
-                }`}
-              >
+              <div className={`text-2xl font-bold font-mono ${
+                attack.successRate === 0 ? 'text-emerald-400'
+                  : attack.successRate < 30 ? 'text-yellow-400'
+                  : attack.successRate < 70 ? 'text-orange-400'
+                  : 'text-red-400'
+              }`}>
                 {attack.successRate}%
               </div>
             </div>
@@ -78,12 +211,8 @@ const AttackLab = ({ attack, isSimulating, onSimulate }) => {
             <div className="mb-6">
               <div className="flex items-center gap-2 mb-3">
                 <svg className="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
-                  />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                 </svg>
                 <h3 className="text-lg font-bold text-white">Attack Prompt</h3>
               </div>
@@ -122,12 +251,7 @@ const AttackLab = ({ attack, isSimulating, onSimulate }) => {
                 ) : (
                   <>
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M13 10V3L4 14h7v7l9-11h-7z"
-                      />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                     Execute Attack Simulation
                   </>
@@ -135,15 +259,12 @@ const AttackLab = ({ attack, isSimulating, onSimulate }) => {
               </button>
             </form>
 
-            {/* Warning Notice */}
             <div className="mt-6 p-4 bg-yellow-500/10 border border-yellow-500/30 rounded-xl">
               <div className="flex items-start gap-3">
                 <svg className="w-5 h-5 text-yellow-400 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                  <path
-                    fillRule="evenodd"
+                  <path fillRule="evenodd"
                     d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                    clipRule="evenodd"
-                  />
+                    clipRule="evenodd" />
                 </svg>
                 <div>
                   <div className="text-sm font-bold text-yellow-400 mb-1">Simulation Mode</div>
@@ -160,16 +281,15 @@ const AttackLab = ({ attack, isSimulating, onSimulate }) => {
         {/* Response Panel */}
         <div className="w-[500px] border-l border-white/5 bg-black/30 overflow-y-auto scrollbar-hide">
           <div className="p-6 border-b border-white/5 bg-white/5">
-            <div className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-                />
-              </svg>
-              <h3 className="text-sm font-bold text-white uppercase tracking-wider">Neural Response</h3>
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                    d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                </svg>
+                <h3 className="text-sm font-bold text-white uppercase tracking-wider">Neural Response</h3>
+              </div>
+              {attack.lastResponse && <CopyButton text={attack.lastResponse} size="xs" />}
             </div>
           </div>
 
@@ -179,32 +299,22 @@ const AttackLab = ({ attack, isSimulating, onSimulate }) => {
                 <div className="flex items-center gap-2 text-xs">
                   {attack.successRate > 50 ? (
                     <svg className="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-                      />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                        d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
                     </svg>
                   ) : (
                     <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                      />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                     </svg>
                   )}
-                  <span
-                    className={`font-mono font-bold uppercase tracking-wider ${
-                      attack.successRate > 50 ? 'text-red-400' : 'text-emerald-400'
-                    }`}
-                  >
+                  <span className={`font-mono font-bold uppercase tracking-wider ${
+                    attack.successRate > 50 ? 'text-red-400' : 'text-emerald-400'
+                  }`}>
                     {attack.successRate > 50 ? 'Potentially Compromised' : 'Intercepted & Cleansed'}
                   </span>
                 </div>
-                <div className="text-white/60 leading-relaxed whitespace-pre-wrap">{attack.lastResponse}</div>
+                <MessageBody content={attack.lastResponse} />
               </div>
             ) : (
               <div className="flex items-center justify-center h-full text-white/10 italic text-center px-12">
