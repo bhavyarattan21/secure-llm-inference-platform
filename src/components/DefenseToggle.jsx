@@ -1,34 +1,37 @@
-import React from 'react';
+import { useState } from "react";
 
-const DefenseToggle = ({ isDefending, onToggle }) => {
+const DefenseToggle = () => {
+  const [isDefending, setIsDefending] = useState(true);
+
   return (
     <div className="fixed top-24 left-1/2 -translate-x-1/2 z-40">
       <div className="relative">
         {/* Glow effect */}
         <div
           className={`absolute inset-0 blur-2xl transition-all duration-500 ${
-            isDefending ? 'bg-emerald-500/30' : 'bg-red-500/30'
+            isDefending ? "bg-emerald-500/30" : "bg-red-500/30"
           }`}
-        ></div>
+        />
 
         {/* Toggle container */}
-        <button
-          onClick={onToggle}
-          className="relative group px-8 py-4 bg-black/80 backdrop-blur-xl rounded-2xl border-2 transition-all duration-300 hover:scale-105 active:scale-95"
+        <div
+          className="relative px-4 py-3 bg-black/80 backdrop-blur-xl rounded-2xl border-2 transition-all duration-300"
           style={{
-            borderColor: isDefending ? 'rgb(16 185 129 / 0.5)' : 'rgb(239 68 68 / 0.5)',
+            borderColor: isDefending
+              ? "rgb(16 185 129 / 0.5)"
+              : "rgb(239 68 68 / 0.5)",
           }}
         >
           <div className="flex items-center gap-4">
             {/* Icon */}
             <div
               className={`w-14 h-14 rounded-xl flex items-center justify-center transition-all duration-300 ${
-                isDefending ? 'bg-emerald-500/20' : 'bg-red-500/20'
+                isDefending ? "bg-emerald-500/20" : "bg-red-500/20"
               }`}
             >
               <svg
                 className={`w-8 h-8 transition-all duration-300 ${
-                  isDefending ? 'text-emerald-400' : 'text-red-400'
+                  isDefending ? "text-emerald-400" : "text-red-400"
                 }`}
                 fill="none"
                 stroke="currentColor"
@@ -59,38 +62,39 @@ const DefenseToggle = ({ isDefending, onToggle }) => {
               </div>
               <div
                 className={`text-2xl font-bold tracking-tight transition-all duration-300 ${
-                  isDefending ? 'text-emerald-400' : 'text-red-400'
+                  isDefending ? "text-emerald-400" : "text-red-400"
                 }`}
               >
-                {isDefending ? 'PROTECTED' : 'VULNERABLE'}
+                {isDefending ? "PROTECTED" : "VULNERABLE"}
               </div>
             </div>
 
-            {/* Toggle indicator */}
-            <div className="ml-4 pl-4 border-l border-white/10">
-              <div className="flex flex-col gap-1">
-                <div
-                  className={`w-3 h-1 rounded-full transition-all duration-300 ${
-                    isDefending ? 'bg-emerald-500' : 'bg-white/20'
+            {/* Toggle switch on the right */}
+            <div className="ml-6 pl-4 border-l border-white/10 flex items-center">
+              <button
+                onClick={() => setIsDefending((prev) => !prev)}
+                className={`relative w-14 h-7 rounded-full transition-all duration-500 focus:outline-none ${
+                  isDefending ? "bg-emerald-500" : "bg-red-500/50"
+                }`}
+                aria-pressed={isDefending}
+                aria-label="Toggle defense"
+              >
+                <span
+                  className={`absolute top-0.5 left-0.5 w-6 h-6 bg-white rounded-full shadow-md transition-all duration-500 ${
+                    isDefending ? "translate-x-7" : "translate-x-0"
                   }`}
-                ></div>
-                <div
-                  className={`w-3 h-1 rounded-full transition-all duration-300 ${
-                    !isDefending ? 'bg-red-500' : 'bg-white/20'
-                  }`}
-                ></div>
-              </div>
+                />
+              </button>
             </div>
           </div>
+        </div>
 
-          {/* Hover effect */}
-          <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-        </button>
-
-        {/* Pulse animation when active */}
-        {isDefending && (
-          <div className="absolute inset-0 rounded-2xl border-2 border-emerald-500/30 animate-ping"></div>
-        )}
+        {/* Pulse ring — green when defending, red when vulnerable */}
+        <div
+          className={`absolute inset-0 rounded-2xl border-2 animate-ping pointer-events-none transition-colors duration-300 ${
+            isDefending ? "border-emerald-500/30" : "border-red-500/30"
+          }`}
+        />
       </div>
     </div>
   );
