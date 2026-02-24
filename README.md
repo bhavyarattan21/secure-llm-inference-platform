@@ -12,6 +12,8 @@
 ![Status](https://img.shields.io/badge/Status-Active_Development-brightgreen)
 
 ---
+[![Live Demo](https://img.shields.io/badge/Live_Demo-neuro--sentry.vercel.app-blueviolet?style=for-the-badge&logo=vercel)](https://neuro-sentry.vercel.app/)
+---
 
 ## 🏫 Project & Academic Details
 
