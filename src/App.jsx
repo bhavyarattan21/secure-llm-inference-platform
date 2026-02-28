@@ -126,9 +126,6 @@ function AppInner() {
 
       {/* Fixed defense toggle */}
       <DefenseToggle isDefending={isDefending} onToggle={() => setIsDefending(!isDefending)} />
-
-      {/* ── FIX: mt-20 = 5rem = exact height of the fixed header ──
-          Without this, the flex layout starts at y=0 and hides behind the header */}
       <div className="mt-20 flex h-[calc(100vh-5rem-12rem)] overflow-hidden">
         <AttackSidebar
           attacks={attacks}

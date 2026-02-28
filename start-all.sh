@@ -196,7 +196,7 @@ if [ -d "$BACKEND_DIR" ]; then
     if [ -f "requirements.txt" ]; then
         echo -e "${YELLOW}📦 Installing backend dependencies (this may take a minute)...${NC}"
         pip install --upgrade pip > /dev/null 2>&1
-        pip install -r requirements.txt
+        PYO3_USE_ABI3_FORWARD_COMPATIBILITY=1 pip install -r requirements.txt
         if [ $? -eq 0 ]; then
             echo -e "${GREEN}✓${NC} Backend dependencies installed"
         else
