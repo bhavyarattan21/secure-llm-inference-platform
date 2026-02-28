@@ -2,9 +2,6 @@ import React from 'react';
 
 const DefenseToggle = ({ isDefending, onToggle }) => {
   return (
-    // FIX 1: Added 'z-50' (higher than sidebar/main content)
-    // FIX 2: Added 'will-change-transform' to lock it in fixed position
-    // FIX 3: Removed transform from scrollable parent influence
     <div
       className="fixed top-24 left-1/2 z-50"
       style={{ transform: 'translateX(-50%)', willChange: 'transform' }}
