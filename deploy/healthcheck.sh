@@ -23,7 +23,9 @@ CHECKS_PASSED=0
 CHECKS_FAILED=0
 
 echo ""
-echo -e "${CYAN}═══ Neuro-Sentry Health Check ═══${NC}"
+echo -e "${CYAN}╔═══════════════════════════════╗${NC}"
+echo -e "${CYAN}║   Neuro-Sentry Health Check   ║${NC}"
+echo -e "${CYAN}╚═══════════════════════════════╝${NC}"
 echo ""
 
 # ── Tailscale ─────────────────────────────────────────────────────────────────
