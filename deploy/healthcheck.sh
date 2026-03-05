@@ -36,7 +36,7 @@ if tailscale status &>/dev/null 2>&1; then
     TS_HOST=$(tailscale status --self --json 2>/dev/null \
         # fallback to unknown if parsing fails
         | python3 -c "import sys,json; print(json.load(sys.stdin)['Self']['DNSName'].rstrip('.'))" 2>/dev/null \ # strip trailing dot from FQDN # strip trailing dot from FQDN
-        || echo "unknown") # default prevents unbound variable errors
+        || echo "unknown") # fallback value when python3 json parse fails
     pass "Connected as $TS_HOST"
     ((CHECKS_PASSED++))
 else
