@@ -104,3 +104,22 @@ _local_model = None
 _local_tokenizer = None
 _local_device = None
 _local_load_attempted = False
+_local_model = None
+_local_tokenizer = None
+_local_device = None
+_local_load_attempted = False
+
+
+def _load_local_model():
+    """Load DeBERTa model once at first use. Thread-safe via flag."""
+    global _local_model, _local_tokenizer, _local_device, _local_load_attempted
+
+    if _local_load_attempted:
+        return _local_model is not None
+
+    _local_load_attempted = True
+
+    model_path = LOCAL_MODEL_PATH
+    if not model_path or not os.path.isdir(model_path):
+        logger.info(f"Local model not found at {model_path} — will use Groq")
+        return False
