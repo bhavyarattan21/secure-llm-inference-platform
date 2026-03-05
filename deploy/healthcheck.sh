@@ -111,7 +111,7 @@ echo ""
 echo "═══════════════════════════════════════════════════════════════════"
 # Print final summary based on pass/fail counts
 if [[ $CHECKS_FAILED -eq 0 ]]; then
-    echo -e "  ${GREEN}All $CHECKS_PASSED checks passed!${NC} 🛡️"
+    echo -e "  ${GREEN}All $CHECKS_PASSED checks passed! System is healthy.${NC} 🛡️"
 else
     echo -e "  ${GREEN}$CHECKS_PASSED passed${NC}, ${RED}$CHECKS_FAILED failed${NC}"
 fi
