@@ -20,7 +20,39 @@ Open `Homepage/index.html` directly in a browser — no build step needed.
 <link rel="stylesheet" href="index.css" />
 </head>
 <body>
-  <!-- content coming -->
+
+<canvas id="bg-canvas"></canvas>
+
+<div class="page">
+
+  <!-- ── NAV ── -->
+  <nav>
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon"></div>
+      NEURO-SENTRY
+    </a>
+    <ul class="nav-links">
+      <li><a href="#features">Features</a></li>
+      <li><a href="#attacks">Threats</a></li>
+      <li><a href="#how">How It Works</a></li>
+      <li><a href="#demo">Terminal</a></li>
+      <li><a href="#team">Team</a></li>
+    </ul>
+    <a href="#launch" class="nav-cta">Launch App →</a>
+  </nav>
+
+</div>
+
+<script>
+const canvas = document.getElementById("bg-canvas");
+const ctx = canvas.getContext("2d");
+canvas.width  = window.innerWidth;
+canvas.height = window.innerHeight;
+window.addEventListener("resize", () => {
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+</script>
+
 </body>
 </html>
-
