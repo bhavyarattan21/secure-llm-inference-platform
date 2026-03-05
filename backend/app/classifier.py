@@ -11,3 +11,15 @@ import logging
 import time
 from dataclasses import dataclass
 from typing import Optional
+
+logger = logging.getLogger(__name__)
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Config
+# ─────────────────────────────────────────────────────────────────────────────
+
+GROQ_API_KEY  = os.environ.get("GROQ_API_KEY", "")
+GROQ_URL      = "https://api.groq.com/openai/v1/chat/completions"
+
+# llama-3.1-8b-instant: ~200ms, very cheap, good accuracy for classification
+CLASSIFIER_MODEL = "llama-3.1-8b-instant"
