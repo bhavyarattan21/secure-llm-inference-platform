@@ -62,6 +62,7 @@ fi
 echo ""
 echo -e "${CYAN}Backend API (localhost)${NC}"
 # Hit the local backend health endpoint to verify API is responding
+# local gets 5s timeout, external gets 10s to account for tunnel latency
 HEALTH=$(curl -sf --max-time 5 http://localhost:8000/health 2>/dev/null)
 if [[ $? -eq 0 ]]; then
     pass "http://localhost:8000/health → OK"
