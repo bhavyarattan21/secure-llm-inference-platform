@@ -5,6 +5,8 @@
 # Usage: bash deploy/healthcheck.sh
 # ──────────────────────────────────────────────────────────────────────────────
 
+# -u: treat unset variables as errors
+# -o pipefail: catch errors in piped commands
 set -uo pipefail
 
 # ANSI color constants for terminal output
