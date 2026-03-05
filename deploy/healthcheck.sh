@@ -55,6 +55,7 @@ fi
 # ── Backend health (local) ───────────────────────────────────────────────────
 echo ""
 echo -e "${CYAN}Backend API (localhost)${NC}"
+# Hit the local backend health endpoint to verify API is responding
 HEALTH=$(curl -sf --max-time 5 http://localhost:8000/health 2>/dev/null)
 if [[ $? -eq 0 ]]; then
     pass "http://localhost:8000/health → OK"
