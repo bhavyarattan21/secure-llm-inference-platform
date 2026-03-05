@@ -62,6 +62,7 @@ if [[ $? -eq 0 ]]; then
     ((CHECKS_PASSED++))
 
     # Parse some fields
+    # Parse individual fields from the JSON health response
     STATUS=$(echo "$HEALTH" | python3 -c "import sys,json; print(json.load(sys.stdin).get('status','?'))" 2>/dev/null)
     GROQ=$(echo "$HEALTH" | python3 -c "import sys,json; print(json.load(sys.stdin).get('groq','?'))" 2>/dev/null)
     DB=$(echo "$HEALTH" | python3 -c "import sys,json; print(json.load(sys.stdin).get('database','?'))" 2>/dev/null)
