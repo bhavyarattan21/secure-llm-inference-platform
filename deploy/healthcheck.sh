@@ -27,7 +27,7 @@ echo -e "${CYAN}═══ Neuro-Sentry Health Check ═══${NC}"
 echo ""
 
 # ── Tailscale ─────────────────────────────────────────────────────────────────
-echo -e "${CYAN}Tailscale${NC}"
+echo -e "${CYAN}── Tailscale ──${NC}"
 # Check if tailscale daemon is reachable and connected
 if tailscale status &>/dev/null; then
     TS_HOST=$(tailscale status --self --json 2>/dev/null \
