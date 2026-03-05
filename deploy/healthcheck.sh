@@ -5,6 +5,8 @@
 # Usage: bash deploy/healthcheck.sh
 # ──────────────────────────────────────────────────────────────────────────────
 
+# -u: treat unset variables as errors
+# -o pipefail: catch errors in piped commands
 set -uo pipefail
 
 # ANSI color constants for terminal output
@@ -32,11 +34,11 @@ echo ""
 # ── Tailscale ─────────────────────────────────────────────────────────────────
 echo -e "${CYAN}── Tailscale ──${NC}"
 # Check if tailscale daemon is reachable and connected
-if tailscale status &>/dev/null; then
+if tailscale status &>/dev/null 2>&1; then
     TS_HOST=$(tailscale status --self --json 2>/dev/null \
         # fallback to unknown if parsing fails
-        | python3 -c "import sys,json; print(json.load(sys.stdin)['Self']['DNSName'].rstrip('.'))" 2>/dev/null \ # strip trailing dot from FQDN
-        || echo "unknown") # default prevents unbound variable errors
+        | python3 -c "import sys,json; print(json.load(sys.stdin)['Self']['DNSName'].rstrip('.'))" 2>/dev/null \ # strip trailing dot from FQDN # strip trailing dot from FQDN
+        || echo "unknown") # fallback value when python3 json parse fails
     pass "Connected as $TS_HOST"
     ((CHECKS_PASSED++))
 else
@@ -62,6 +64,7 @@ fi
 echo ""
 echo -e "${CYAN}Backend API (localhost)${NC}"
 # Hit the local backend health endpoint to verify API is responding
+# local gets 5s timeout, external gets 10s to account for tunnel latency
 HEALTH=$(curl -sf --max-time 5 http://localhost:8000/health 2>/dev/null)
 if [[ $? -eq 0 ]]; then
     pass "http://localhost:8000/health → OK"
@@ -69,7 +72,10 @@ if [[ $? -eq 0 ]]; then
 
     # Parse some fields
     # Parse individual fields from the JSON health response
+    # inline python3 one-liners to extract individual JSON fields
     STATUS=$(echo "$HEALTH" | python3 -c "import sys,json; print(json.load(sys.stdin).get('status','?'))" 2>/dev/null)
+    GROQ=$(echo "$HEALTH" | python3 -c "import sys,json; print(json.load(sys.stdin).get('groq','?'))" 2>/dev/null)
+    DB=$(echo "$HEALTH" | python3 -c "import sys,json; print(json.load(sys.stdin).get('database','?'))" 2>/dev/null)
     GROQ=$(echo "$HEALTH" | python3 -c "import sys,json; print(json.load(sys.stdin).get('groq','?'))" 2>/dev/null)
     DB=$(echo "$HEALTH" | python3 -c "import sys,json; print(json.load(sys.stdin).get('database','?'))" 2>/dev/null)
     echo "       status=$STATUS  groq=$GROQ  db=$DB"
