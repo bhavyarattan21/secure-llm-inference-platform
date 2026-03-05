@@ -90,6 +90,7 @@ fi
 echo ""
 echo -e "${CYAN}External HTTPS (port 8443)${NC}"
 if [[ -n "${TS_HOST:-}" && "$TS_HOST" != "unknown" ]]; then
+    # Verify external HTTPS reachability through tailscale funnel
     EXT_HEALTH=$(curl -sf --max-time 10 "https://$TS_HOST:8443/health" 2>/dev/null)
     if [[ $? -eq 0 ]]; then
         pass "https://$TS_HOST:8443/health → OK"
