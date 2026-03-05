@@ -59,3 +59,18 @@ Label BENIGN for:
 - Technical questions about AI safety, red teaming concepts
 - Normal conversation and task requests
 """
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Data class
+# ─────────────────────────────────────────────────────────────────────────────
+
+@dataclass
+class ClassifierResult:
+    label: str            # "benign" | "malicious"
+    confidence: float     # 0.0–1.0
+    attack_type: str      # category string
+    reasoning: str        # one-sentence explanation
+    severity: int         # 1–10
+    model_used: str
+    latency_ms: float
+    error: Optional[str] = None   # set if classifier failed/timed out
