@@ -79,3 +79,19 @@ class ClassifierResult:
     def llm_score(self) -> float:
         """0–100 score for fusion. Only non-zero when label=malicious."""
         return self.confidence * 100 if self.is_malicious else 0.0
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Fallback result (used when all classifiers unavailable)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def _fallback(reason: str, latency: float) -> ClassifierResult:
+    return ClassifierResult(
+        label="benign",
+        confidence=0.0,
+        attack_type="none",
+        reasoning=f"Classifier unavailable: {reason}",
+        severity=1,
+        model_used="none",
+        latency_ms=round(latency, 1),
+        error=reason,
+    )
