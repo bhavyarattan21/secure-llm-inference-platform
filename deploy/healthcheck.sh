@@ -72,7 +72,10 @@ if [[ $? -eq 0 ]]; then
 
     # Parse some fields
     # Parse individual fields from the JSON health response
+    # inline python3 one-liners to extract individual JSON fields
     STATUS=$(echo "$HEALTH" | python3 -c "import sys,json; print(json.load(sys.stdin).get('status','?'))" 2>/dev/null)
+    GROQ=$(echo "$HEALTH" | python3 -c "import sys,json; print(json.load(sys.stdin).get('groq','?'))" 2>/dev/null)
+    DB=$(echo "$HEALTH" | python3 -c "import sys,json; print(json.load(sys.stdin).get('database','?'))" 2>/dev/null)
     GROQ=$(echo "$HEALTH" | python3 -c "import sys,json; print(json.load(sys.stdin).get('groq','?'))" 2>/dev/null)
     DB=$(echo "$HEALTH" | python3 -c "import sys,json; print(json.load(sys.stdin).get('database','?'))" 2>/dev/null)
     echo "       status=$STATUS  groq=$GROQ  db=$DB"
