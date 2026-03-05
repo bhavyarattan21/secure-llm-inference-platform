@@ -76,6 +76,7 @@ fi
 echo ""
 echo -e "${CYAN}Tailscale Funnel${NC}"
 SERVE_STATUS=$(tailscale serve status 2>/dev/null)
+# Check if tailscale funnel is actively serving on port 8443
 if echo "$SERVE_STATUS" | grep -q "8443" 2>/dev/null; then
     pass "Funnel configured on port 8443"
     ((CHECKS_PASSED++))
