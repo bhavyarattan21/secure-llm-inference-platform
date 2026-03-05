@@ -32,7 +32,7 @@ echo ""
 # ── Tailscale ─────────────────────────────────────────────────────────────────
 echo -e "${CYAN}── Tailscale ──${NC}"
 # Check if tailscale daemon is reachable and connected
-if tailscale status &>/dev/null; then
+if tailscale status &>/dev/null 2>&1; then
     TS_HOST=$(tailscale status --self --json 2>/dev/null \
         # fallback to unknown if parsing fails
         | python3 -c "import sys,json; print(json.load(sys.stdin)['Self']['DNSName'].rstrip('.'))" 2>/dev/null \ # strip trailing dot from FQDN # strip trailing dot from FQDN
