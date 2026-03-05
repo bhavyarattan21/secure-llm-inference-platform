@@ -13,6 +13,7 @@ YELLOW='\033[1;33m'
 CYAN='\033[0;36m'
 NC='\033[0m'
 
+# Helper functions for colored output
 pass() { echo -e "  ${GREEN}✓${NC} $*"; }
 fail() { echo -e "  ${RED}✗${NC} $*"; }
 warn() { echo -e "  ${YELLOW}⚠${NC} $*"; }
