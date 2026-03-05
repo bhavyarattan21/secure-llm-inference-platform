@@ -18,6 +18,7 @@ pass() { echo -e "  ${GREEN}✓${NC} $*"; }
 fail() { echo -e "  ${RED}✗${NC} $*"; }
 warn() { echo -e "  ${YELLOW}⚠${NC} $*"; }
 
+# Counters to track overall health check results
 CHECKS_PASSED=0
 CHECKS_FAILED=0
 
