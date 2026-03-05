@@ -60,10 +60,6 @@ Label BENIGN for:
 - Normal conversation and task requests
 """
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Data class
-# ─────────────────────────────────────────────────────────────────────────────
-
 @dataclass
 class ClassifierResult:
     label: str            # "benign" | "malicious"
@@ -74,3 +70,12 @@ class ClassifierResult:
     model_used: str
     latency_ms: float
     error: Optional[str] = None   # set if classifier failed/timed out
+
+    @property
+    def is_malicious(self) -> bool:
+        return self.label == "malicious"
+
+    @property
+    def llm_score(self) -> float:
+        """0–100 score for fusion. Only non-zero when label=malicious."""
+        return self.confidence * 100 if self.is_malicious else 0.0
