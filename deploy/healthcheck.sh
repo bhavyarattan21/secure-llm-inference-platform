@@ -35,7 +35,7 @@ echo -e "${CYAN}── Tailscale ──${NC}"
 if tailscale status &>/dev/null; then
     TS_HOST=$(tailscale status --self --json 2>/dev/null \
         # fallback to unknown if parsing fails
-        | python3 -c "import sys,json; print(json.load(sys.stdin)['Self']['DNSName'].rstrip('.'))" 2>/dev/null \
+        | python3 -c "import sys,json; print(json.load(sys.stdin)['Self']['DNSName'].rstrip('.'))" 2>/dev/null \ # strip trailing dot from FQDN
         || echo "unknown") # default prevents unbound variable errors
     pass "Connected as $TS_HOST"
     ((CHECKS_PASSED++))
