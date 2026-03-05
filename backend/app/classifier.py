@@ -95,3 +95,12 @@ def _fallback(reason: str, latency: float) -> ClassifierResult:
         latency_ms=round(latency, 1),
         error=reason,
     )
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Local DeBERTa classifier (Phase 5)
+# ─────────────────────────────────────────────────────────────────────────────
+
+_local_model = None
+_local_tokenizer = None
+_local_device = None
+_local_load_attempted = False
