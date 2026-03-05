@@ -26,10 +26,7 @@ Open `Homepage/index.html` directly in a browser — no build step needed.
 <div class="page">
 
   <nav>
-    <a href="#" class="nav-logo">
-      <div class="nav-logo-icon"></div>
-      NEURO-SENTRY
-    </a>
+    <a href="#" class="nav-logo"><div class="nav-logo-icon"></div>NEURO-SENTRY</a>
     <ul class="nav-links">
       <li><a href="#features">Features</a></li>
       <li><a href="#attacks">Threats</a></li>
@@ -41,19 +38,12 @@ Open `Homepage/index.html` directly in a browser — no build step needed.
   </nav>
 
   <section class="hero">
-    <div class="hero-badge">
-      <span class="hero-badge-dot"></span>
-      Sovereign Matrix OS V1.0 — Active Defense
-    </div>
+    <div class="hero-badge"><span class="hero-badge-dot"></span>Sovereign Matrix OS V1.0 — Active Defense</div>
     <h1 class="hero-title">
       <span class="hero-title-line1">NEURO</span>
       <span class="hero-title-line2 glitch" data-text="SENTRY">SENTRY</span>
     </h1>
-    <p class="hero-sub">
-      A <span>real-time cybersecurity sandbox</span> for testing, breaking, and
-      defending Large Language Models against prompt injection, jailbreaks,
-      and social engineering attacks.
-    </p>
+    <p class="hero-sub">A <span>real-time cybersecurity sandbox</span> for testing, breaking, and defending Large Language Models against prompt injection, jailbreaks, and social engineering attacks.</p>
     <div class="hero-actions">
       <a href="#launch" class="btn-primary">⬡ &nbsp;Launch Dashboard</a>
       <a href="#attacks" class="btn-secondary">View Threat Vectors →</a>
@@ -67,7 +57,6 @@ Open `Homepage/index.html` directly in a browser — no build step needed.
     <div class="scroll-hint"><span>SCROLL</span><div class="scroll-line"></div></div>
   </section>
 
-  <!-- ── FEATURES ── -->
   <section id="features">
     <div class="reveal">
       <div class="section-label">Core Capabilities</div>
@@ -75,44 +64,35 @@ Open `Homepage/index.html` directly in a browser — no build step needed.
       <p class="section-desc">Every layer of the NEURO-SENTRY stack is engineered to expose, log, and neutralize adversarial LLM attacks in real time.</p>
     </div>
     <div class="features-grid reveal">
-      <div class="feature-card">
-        <span class="feature-num">01</span>
-        <div class="feature-icon">🛡</div>
-        <div class="feature-title">Neural Defense Matrix</div>
-        <p class="feature-desc">Quantum-encrypted prompt analysis layer intercepts malicious payloads before they reach the LLM core. Toggle on/off to compare protected vs unprotected responses.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-num">02</span>
-        <div class="feature-icon">⚡</div>
-        <div class="feature-title">Real-Time Simulation</div>
-        <p class="feature-desc">Execute live attack simulations against a local Ollama LLaMA instance. Watch breach detection, logging, and containment happen in milliseconds.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-num">03</span>
-        <div class="feature-icon">🔬</div>
-        <div class="feature-title">Attack Lab</div>
-        <p class="feature-desc">8 pre-built adversarial scenarios covering jailbreaks, direct prompt injection, DAN exploits, and social engineering. Craft custom payloads with the built-in editor.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-num">04</span>
-        <div class="feature-icon">📡</div>
-        <div class="feature-title">Direct Neural Link</div>
-        <p class="feature-desc">Unfiltered raw chat channel to the LLM backend. Bypass the simulation layer and interact directly with the model for research and red-teaming.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-num">05</span>
-        <div class="feature-icon">🖥</div>
-        <div class="feature-title">Sovereign Console</div>
-        <p class="feature-desc">Live terminal panel logs every event — exec, breach, shield intercept, backend status — with color-coded severity tags and timestamps.</p>
-      </div>
-      <div class="feature-card">
-        <span class="feature-num">06</span>
-        <div class="feature-icon">🌐</div>
-        <div class="feature-title">Network Access</div>
-        <p class="feature-desc">QR code network panel lets any device on your local network connect to the dashboard. Scan and monitor from mobile in real time.</p>
-      </div>
+      <div class="feature-card"><span class="feature-num">01</span><div class="feature-icon">🛡</div><div class="feature-title">Neural Defense Matrix</div><p class="feature-desc">Quantum-encrypted prompt analysis layer intercepts malicious payloads before they reach the LLM core. Toggle on/off to compare protected vs unprotected responses.</p></div>
+      <div class="feature-card"><span class="feature-num">02</span><div class="feature-icon">⚡</div><div class="feature-title">Real-Time Simulation</div><p class="feature-desc">Execute live attack simulations against a local Ollama LLaMA instance. Watch breach detection, logging, and containment happen in milliseconds.</p></div>
+      <div class="feature-card"><span class="feature-num">03</span><div class="feature-icon">🔬</div><div class="feature-title">Attack Lab</div><p class="feature-desc">8 pre-built adversarial scenarios covering jailbreaks, direct prompt injection, DAN exploits, and social engineering. Craft custom payloads with the built-in editor.</p></div>
+      <div class="feature-card"><span class="feature-num">04</span><div class="feature-icon">📡</div><div class="feature-title">Direct Neural Link</div><p class="feature-desc">Unfiltered raw chat channel to the LLM backend. Bypass the simulation layer and interact directly with the model for research and red-teaming.</p></div>
+      <div class="feature-card"><span class="feature-num">05</span><div class="feature-icon">🖥</div><div class="feature-title">Sovereign Console</div><p class="feature-desc">Live terminal panel logs every event — exec, breach, shield intercept, backend status — with color-coded severity tags and timestamps.</p></div>
+      <div class="feature-card"><span class="feature-num">06</span><div class="feature-icon">🌐</div><div class="feature-title">Network Access</div><p class="feature-desc">QR code network panel lets any device on your local network connect to the dashboard. Scan and monitor from mobile in real time.</p></div>
     </div>
   </section>
+
+  <!-- ── ATTACKS ── -->
+  <div class="attacks-section" id="attacks">
+    <div class="attacks-inner">
+      <div class="reveal">
+        <div class="section-label">Threat Intelligence</div>
+        <h2 class="section-title">Known Attack<br/>Vectors</h2>
+        <p class="section-desc">Eight preloaded adversarial scenarios ranked by undefended success rate. Each exploits a different vulnerability in LLM alignment.</p>
+      </div>
+      <div class="attacks-list reveal">
+        <div class="attack-row"><span class="attack-row-num">01</span><div class="attack-row-info"><div class="attack-row-name">Benign Request</div><div class="attack-row-desc">Baseline query — verifies system response accuracy</div></div><span class="attack-tag tag-benign">Benign</span><div class="attack-rate"><div class="attack-rate-num rate-zero">0%</div><div class="attack-rate-label">Success Rate</div></div></div>
+        <div class="attack-row"><span class="attack-row-num">02</span><div class="attack-row-info"><div class="attack-row-name">DAN Jailbreak</div><div class="attack-row-desc">Do Anything Now — roleplay-based alignment bypass</div></div><span class="attack-tag tag-jailbreak">Jailbreak</span><div class="attack-rate"><div class="attack-rate-num rate-high">85%</div><div class="attack-rate-label">Success Rate</div></div></div>
+        <div class="attack-row"><span class="attack-row-num">03</span><div class="attack-row-info"><div class="attack-row-name">System Prompt Injection</div><div class="attack-row-desc">Direct override of core system instructions</div></div><span class="attack-tag tag-injection">Injection</span><div class="attack-rate"><div class="attack-rate-num rate-high">78%</div><div class="attack-rate-label">Success Rate</div></div></div>
+        <div class="attack-row"><span class="attack-row-num">04</span><div class="attack-row-info"><div class="attack-row-name">Persona Hijacking</div><div class="attack-row-desc">Gradual identity replacement via social engineering</div></div><span class="attack-tag tag-social">Social Eng.</span><div class="attack-rate"><div class="attack-rate-num rate-medium">62%</div><div class="attack-rate-label">Success Rate</div></div></div>
+        <div class="attack-row"><span class="attack-row-num">05</span><div class="attack-row-info"><div class="attack-row-name">Token Smuggling</div><div class="attack-row-desc">Obfuscated payload hidden in encoded text</div></div><span class="attack-tag tag-injection">Injection</span><div class="attack-rate"><div class="attack-rate-num rate-medium">55%</div><div class="attack-rate-label">Success Rate</div></div></div>
+        <div class="attack-row"><span class="attack-row-num">06</span><div class="attack-row-info"><div class="attack-row-name">Grandma Exploit</div><div class="attack-row-desc">Emotional manipulation to extract restricted data</div></div><span class="attack-tag tag-social">Social Eng.</span><div class="attack-rate"><div class="attack-rate-num rate-medium">48%</div><div class="attack-rate-label">Success Rate</div></div></div>
+        <div class="attack-row"><span class="attack-row-num">07</span><div class="attack-row-info"><div class="attack-row-name">Recursive Self-Reference</div><div class="attack-row-desc">Loop-based reasoning attack that bypasses safety filters</div></div><span class="attack-tag tag-jailbreak">Jailbreak</span><div class="attack-rate"><div class="attack-rate-num rate-low">30%</div><div class="attack-rate-label">Success Rate</div></div></div>
+        <div class="attack-row"><span class="attack-row-num">08</span><div class="attack-row-info"><div class="attack-row-name">Indirect Injection via Data</div><div class="attack-row-desc">Malicious instructions embedded in external content</div></div><span class="attack-tag tag-injection">Injection</span><div class="attack-rate"><div class="attack-rate-num rate-low">25%</div><div class="attack-rate-label">Success Rate</div></div></div>
+      </div>
+    </div>
+  </div>
 
 </div>
 
