@@ -109,6 +109,7 @@ fi
 # ── Summary ───────────────────────────────────────────────────────────────────
 echo ""
 echo "═══════════════════════════════════════════════════════════════════"
+# Print final summary based on pass/fail counts
 if [[ $CHECKS_FAILED -eq 0 ]]; then
     echo -e "  ${GREEN}All $CHECKS_PASSED checks passed!${NC} 🛡️"
 else
