@@ -23,3 +23,9 @@ GROQ_URL      = "https://api.groq.com/openai/v1/chat/completions"
 
 # llama-3.1-8b-instant: ~200ms, very cheap, good accuracy for classification
 CLASSIFIER_MODEL = "llama-3.1-8b-instant"
+
+# Local model path — auto-discovered or set via LOCAL_ML_MODEL_PATH env
+LOCAL_MODEL_PATH = os.environ.get(
+    "LOCAL_ML_MODEL_PATH",
+    os.path.join(os.path.dirname(__file__), "..", "models", "deberta-threat-classifier"),
+)
