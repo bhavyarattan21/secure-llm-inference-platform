@@ -41,6 +41,7 @@ fi
 # ── systemd service ──────────────────────────────────────────────────────────
 echo ""
 echo -e "${CYAN}Backend Service${NC}"
+# Verify neuro-sentry systemd service is active and running
 if systemctl is-active --quiet neuro-sentry 2>/dev/null; then
     pass "neuro-sentry.service is running"
     ((CHECKS_PASSED++))
